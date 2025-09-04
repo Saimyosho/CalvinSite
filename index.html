@@ -1,0 +1,2381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shear Magic | Premium Barbershop - Johnstown, PA</title>
+    <meta name="description" content="Shear Magic - Johnstown's premier barbershop. Expert cuts, fades, and grooming services. Family-operated with pride since 1989.">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="Shear Magic - Premium Barbershop">
+    <meta property="og:description" content="Expert barbers, modern styles, classic service. Book your appointment today.">
+    <meta property="og:image" content="https://images.unsplash.com/photo-1585747860715-2ba37e788b70?w=1200">
+    <meta property="og:url" content="https://shearmagic.com">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Playfair+Display:wght@700;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --gold: #D4AF37;
+            --gold-light: #F4E5C2;
+            --gold-dark: #B8941F;
+            --black: #0A0A0A;
+            --charcoal: #1A1A1A;
+            --gray-dark: #2A2A2A;
+            --gray: #4A4A4A;
+            --gray-light: #8A8A8A;
+            --white: #FFFFFF;
+            --cream: #FBF8F3;
+            --success: #10B981;
+            --danger: #EF4444;
+            --radius: 12px;
+            --radius-sm: 8px;
+            --radius-lg: 20px;
+            --shadow: 0 10px 30px rgba(0,0,0,0.3);
+            --shadow-sm: 0 2px 10px rgba(0,0,0,0.15);
+            --shadow-lg: 0 20px 50px rgba(0,0,0,0.4);
+            --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-fast: all 0.2s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--black);
+            color: var(--white);
+            overflow-x: hidden;
+            line-height: 1.6;
+            position: relative;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--charcoal);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--gold);
+            border-radius: 5px;
+        }
+
+        /* Loading Screen */
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: var(--black);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            transition: opacity 0.5s, visibility 0.5s;
+        }
+
+        .loader.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .loader-inner {
+            position: relative;
+            width: 100px;
+            height: 100px;
+        }
+
+        .scissors {
+            width: 100px;
+            height: 100px;
+            animation: rotate 2s infinite linear;
+        }
+
+        .scissors::before,
+        .scissors::after {
+            content: '';
+            position: absolute;
+            width: 4px;
+            height: 50px;
+            background: var(--gold);
+            border-radius: 2px;
+            top: 25px;
+            transform-origin: center bottom;
+        }
+
+        .scissors::before {
+            left: 30px;
+            animation: scissor-left 1s infinite ease-in-out;
+        }
+
+        .scissors::after {
+            right: 30px;
+            animation: scissor-right 1s infinite ease-in-out;
+        }
+
+        @keyframes rotate {
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes scissor-left {
+            0%, 100% { transform: rotate(-20deg); }
+            50% { transform: rotate(20deg); }
+        }
+
+        @keyframes scissor-right {
+            0%, 100% { transform: rotate(20deg); }
+            50% { transform: rotate(-20deg); }
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(20px);
+            z-index: 1000;
+            transition: var(--transition);
+            border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+        }
+
+        nav.scrolled {
+            background: rgba(10, 10, 10, 0.98);
+            box-shadow: var(--shadow);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2.5rem;
+            color: var(--gold);
+            text-decoration: none;
+            letter-spacing: 2px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: var(--transition);
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .logo::before {
+            content: '✂';
+            font-size: 2rem;
+            animation: float 3s infinite ease-in-out;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--white);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+            position: relative;
+            padding: 5px 0;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gold);
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .book-now-nav {
+            background: var(--gold);
+            color: var(--black);
+            padding: 0.75rem 2rem;
+            border-radius: var(--radius);
+            font-weight: 700;
+            text-decoration: none;
+            transition: var(--transition);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .book-now-nav::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: var(--transition);
+        }
+
+        .book-now-nav:hover::before {
+            left: 100%;
+        }
+
+        .book-now-nav:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 4px;
+        }
+
+        .menu-toggle span {
+            width: 30px;
+            height: 3px;
+            background: var(--gold);
+            transition: var(--transition);
+            transform-origin: center;
+        }
+
+        .menu-toggle.active span:nth-child(1) {
+            transform: rotate(45deg) translateY(10px);
+        }
+
+        .menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .menu-toggle.active span:nth-child(3) {
+            transform: rotate(-45deg) translateY(-10px);
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+            background: url('https://i.ibb.co/pv51p6W1/Gemini-Generated-Image-f20eskf20eskf20e.png') center/cover;
+            filter: brightness(0.3);
+            transform: scale(1.1);
+            animation: subtle-zoom 20s infinite alternate;
+        }
+
+        @keyframes subtle-zoom {
+            0% { transform: scale(1.1); }
+            100% { transform: scale(1.15); }
+        }
+
+        .hero-overlay {
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at center, transparent, rgba(0,0,0,0.6));
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            max-width: 900px;
+            padding: 2rem;
+            animation: fadeInUp 1s ease;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: rgba(212, 175, 55, 0.2);
+            color: var(--gold);
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            border: 1px solid var(--gold);
+            font-weight: 600;
+            margin-bottom: 2rem;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, var(--gold), var(--gold-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shimmer 3s infinite;
+        }
+
+        @keyframes shimmer {
+            0%, 100% { filter: brightness(1); }
+            50% { filter: brightness(1.2); }
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--gray-light);
+            margin-bottom: 2.5rem;
+            font-weight: 300;
+            letter-spacing: 0.5px;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 1rem 2.5rem;
+            border-radius: var(--radius);
+            font-weight: 600;
+            text-decoration: none;
+            transition: var(--transition);
+            display: inline-block;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary {
+            background: var(--gold);
+            color: var(--black);
+            border: 2px solid var(--gold);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--white);
+            border: 2px solid var(--white);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        /* Services Section */
+        .services {
+            padding: 5rem 2rem;
+            background: linear-gradient(135deg, var(--charcoal), var(--black));
+            position: relative;
+        }
+
+        .section-header {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 4rem;
+        }
+
+        .section-badge {
+            display: inline-block;
+            background: rgba(212, 175, 55, 0.1);
+            color: var(--gold);
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.875rem;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 900;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--white), var(--gray-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .section-desc {
+            color: var(--gray-light);
+            font-size: 1.125rem;
+            line-height: 1.8;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .service-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            border-radius: var(--radius-lg);
+            padding: 2.5rem;
+            text-align: center;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.1), transparent);
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .service-card:hover::before {
+            opacity: 1;
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--gold);
+        }
+
+        .service-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 1.5rem;
+            background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            transition: var(--transition);
+        }
+
+        .service-card:hover .service-icon {
+            transform: rotate(360deg) scale(1.1);
+        }
+
+        .service-name {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.75rem;
+            color: var(--white);
+            margin-bottom: 0.5rem;
+            letter-spacing: 1px;
+        }
+
+        .service-desc {
+            color: var(--gray-light);
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .service-price {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--gold);
+            font-family: 'Bebas Neue', sans-serif;
+            letter-spacing: 1px;
+        }
+
+        /* Gallery Section */
+        .gallery {
+            padding: 5rem 2rem;
+            background: var(--black);
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 1.5rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: var(--radius);
+            height: 300px;
+            cursor: pointer;
+            group: gallery;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+
+        .gallery-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+            display: flex;
+            align-items: flex-end;
+            padding: 1.5rem;
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .gallery-item:hover .gallery-overlay {
+            opacity: 1;
+        }
+
+        .gallery-caption {
+            color: var(--white);
+            font-size: 1.125rem;
+            font-weight: 600;
+            transform: translateY(20px);
+            transition: var(--transition);
+        }
+
+        .gallery-item:hover .gallery-caption {
+            transform: translateY(0);
+        }
+
+        /* Barbers Section */
+        .barbers {
+            padding: 5rem 2rem;
+            background: linear-gradient(135deg, var(--charcoal), var(--black));
+        }
+
+        .barbers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 3rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .barber-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .barber-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--gold);
+        }
+
+        .barber-image {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .barber-card:hover .barber-image {
+            transform: scale(1.05);
+        }
+
+        .barber-info {
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .barber-name {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2rem;
+            color: var(--gold);
+            margin-bottom: 0.5rem;
+            letter-spacing: 1px;
+        }
+
+        .barber-title {
+            color: var(--gray-light);
+            font-style: italic;
+            margin-bottom: 1rem;
+        }
+
+        .barber-bio {
+            color: var(--white);
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .barber-specialties {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            justify-content: center;
+        }
+
+        .specialty-tag {
+            background: rgba(212, 175, 55, 0.2);
+            color: var(--gold);
+            padding: 0.25rem 0.75rem;
+            border-radius: 50px;
+            font-size: 0.875rem;
+            border: 1px solid var(--gold);
+        }
+
+        /* Booking Section */
+        .booking {
+            padding: 5rem 2rem;
+            background: var(--black);
+            position: relative;
+        }
+
+        .booking-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.1), rgba(212, 175, 55, 0.05));
+            border: 2px solid var(--gold);
+            border-radius: var(--radius-lg);
+            padding: 3rem;
+            box-shadow: 0 0 50px rgba(212, 175, 55, 0.2);
+        }
+
+        .booking-form {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .form-label {
+            color: var(--gold);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.875rem;
+        }
+
+        .form-input,
+        .form-select,
+        .form-textarea {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            color: var(--white);
+            padding: 1rem;
+            border-radius: var(--radius);
+            font-size: 1rem;
+            transition: var(--transition);
+            font-family: 'Inter', sans-serif;
+        }
+
+        .form-input:focus,
+        .form-select:focus,
+        .form-textarea:focus {
+            outline: none;
+            border-color: var(--gold);
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.2);
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .time-slots {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 0.75rem;
+        }
+
+        .time-slot {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            padding: 0.75rem;
+            border-radius: var(--radius);
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+            color: var(--white);
+        }
+
+        .time-slot:hover {
+            border-color: var(--gold);
+            background: rgba(212, 175, 55, 0.1);
+        }
+
+        .time-slot.selected {
+            background: var(--gold);
+            color: var(--black);
+            border-color: var(--gold);
+            font-weight: 600;
+        }
+
+        .time-slot.disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .submit-btn {
+            grid-column: 1 / -1;
+            background: var(--gold);
+            color: var(--black);
+            border: none;
+            padding: 1.25rem 3rem;
+            font-size: 1.125rem;
+            font-weight: 700;
+            border-radius: var(--radius);
+            cursor: pointer;
+            transition: var(--transition);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .submit-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .submit-btn:hover::before {
+            width: 500px;
+            height: 500px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        /* Contact Section */
+        .contact {
+            padding: 5rem 2rem;
+            background: linear-gradient(135deg, var(--charcoal), var(--black));
+        }
+
+        .contact-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 3rem;
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1.5rem;
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            border-radius: var(--radius);
+            transition: var(--transition);
+        }
+
+        .contact-item:hover {
+            border-color: var(--gold);
+            transform: translateX(10px);
+            box-shadow: var(--shadow);
+        }
+
+        .contact-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .contact-details h3 {
+            color: var(--gold);
+            margin-bottom: 0.5rem;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.5rem;
+            letter-spacing: 1px;
+        }
+
+        .contact-details p {
+            color: var(--white);
+            line-height: 1.6;
+        }
+
+        .contact-details a {
+            color: var(--white);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .contact-details a:hover {
+            color: var(--gold);
+        }
+
+        .map-container {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            border-radius: var(--radius);
+            overflow: hidden;
+            height: 400px;
+            position: relative;
+        }
+
+        .map-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: url('https://images.unsplash.com/photo-1524634126442-357e0eac3c14?w=800') center/cover;
+            position: relative;
+        }
+
+        .map-placeholder::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.7);
+        }
+
+        .map-text {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            color: var(--white);
+        }
+
+        .map-text h3 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2rem;
+            color: var(--gold);
+            margin-bottom: 0.5rem;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--black);
+            padding: 3rem 2rem 1rem;
+            border-top: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        .footer-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.5rem;
+            color: var(--gold);
+            margin-bottom: 1rem;
+            letter-spacing: 1px;
+        }
+
+        .footer-section p,
+        .footer-section li {
+            color: var(--gray-light);
+            line-height: 1.8;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section li {
+            margin-bottom: 0.5rem;
+            transition: var(--transition);
+        }
+
+        .footer-section a {
+            color: var(--gray-light);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer-section a:hover {
+            color: var(--gold);
+            transform: translateX(5px);
+            display: inline-block;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            background: rgba(212, 175, 55, 0.2);
+            border: 1px solid var(--gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gold);
+            transition: var(--transition);
+            text-decoration: none;
+        }
+
+        .social-link:hover {
+            background: var(--gold);
+            color: var(--black);
+            transform: translateY(-5px) rotate(360deg);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(212, 175, 55, 0.1);
+            color: var(--gray-light);
+        }
+
+        .footer-bottom a {
+            color: var(--gold);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        /* Admin Panel Styles */
+        .admin-trigger {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background: var(--gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: var(--shadow-lg);
+            transition: var(--transition);
+            z-index: 999;
+            font-size: 1.5rem;
+        }
+
+        .admin-trigger:hover {
+            transform: scale(1.1) rotate(90deg);
+            background: var(--gold-dark);
+        }
+
+        .admin-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 9999;
+            overflow-y: auto;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .admin-modal.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .admin-container {
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: var(--charcoal);
+            border-radius: var(--radius-lg);
+            border: 2px solid var(--gold);
+            box-shadow: 0 0 50px rgba(212, 175, 55, 0.3);
+        }
+
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid rgba(212, 175, 55, 0.3);
+        }
+
+        .admin-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 3rem;
+            color: var(--gold);
+            letter-spacing: 2px;
+        }
+
+        .admin-close {
+            width: 40px;
+            height: 40px;
+            background: rgba(212, 175, 55, 0.2);
+            border: 1px solid var(--gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: var(--gold);
+            font-size: 1.5rem;
+            transition: var(--transition);
+        }
+
+        .admin-close:hover {
+            background: var(--gold);
+            color: var(--black);
+            transform: rotate(90deg);
+        }
+
+        .admin-login {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: var(--radius-lg);
+        }
+
+        .admin-login h2 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2rem;
+            color: var(--gold);
+            text-align: center;
+            margin-bottom: 2rem;
+            letter-spacing: 1px;
+        }
+
+        .login-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .admin-tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            border-bottom: 2px solid rgba(212, 175, 55, 0.2);
+            padding-bottom: 1rem;
+        }
+
+        .admin-tab {
+            padding: 0.75rem 1.5rem;
+            background: transparent;
+            color: var(--gray-light);
+            border: 1px solid transparent;
+            border-radius: var(--radius) var(--radius) 0 0;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .admin-tab:hover {
+            color: var(--gold);
+            background: rgba(212, 175, 55, 0.1);
+        }
+
+        .admin-tab.active {
+            background: rgba(212, 175, 55, 0.2);
+            color: var(--gold);
+            border-color: var(--gold);
+            border-bottom-color: transparent;
+        }
+
+        .admin-section {
+            display: none;
+            animation: slideIn 0.3s ease;
+        }
+
+        .admin-section.active {
+            display: block;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .admin-grid {
+            display: grid;
+            gap: 2rem;
+        }
+
+        .admin-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+        }
+
+        .admin-card h3 {
+            color: var(--gold);
+            margin-bottom: 1rem;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.5rem;
+            letter-spacing: 1px;
+        }
+
+        .editable-field {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .editable-field label {
+            color: var(--gold);
+            font-weight: 600;
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .editable-input,
+        .editable-textarea {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            color: var(--white);
+            padding: 0.75rem;
+            border-radius: var(--radius-sm);
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .editable-textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .admin-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .admin-btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--radius);
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.875rem;
+        }
+
+        .admin-btn-primary {
+            background: var(--gold);
+            color: var(--black);
+        }
+
+        .admin-btn-secondary {
+            background: transparent;
+            color: var(--gold);
+            border: 1px solid var(--gold);
+        }
+
+        .admin-btn-danger {
+            background: var(--danger);
+            color: var(--white);
+        }
+
+        .admin-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        .availability-calendar {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .day-header {
+            text-align: center;
+            font-weight: 600;
+            color: var(--gold);
+            padding: 0.5rem;
+            background: rgba(212, 175, 55, 0.1);
+            border-radius: var(--radius-sm);
+        }
+
+        .calendar-day {
+            aspect-ratio: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .calendar-day:hover {
+            background: rgba(212, 175, 55, 0.1);
+            border-color: var(--gold);
+        }
+
+        .calendar-day.unavailable {
+            background: rgba(239, 68, 68, 0.1);
+            border-color: rgba(239, 68, 68, 0.3);
+        }
+
+        .calendar-day.selected {
+            background: var(--gold);
+            color: var(--black);
+            border-color: var(--gold);
+        }
+
+        .day-number {
+            font-weight: 600;
+            font-size: 1.125rem;
+        }
+
+        .day-slots {
+            font-size: 0.75rem;
+            color: var(--gray-light);
+        }
+
+        .service-editor {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .service-item {
+            display: grid;
+            grid-template-columns: 1fr 1fr auto auto;
+            gap: 1rem;
+            align-items: center;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            border-radius: var(--radius-sm);
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 1rem 2rem;
+            border-radius: var(--radius);
+            color: var(--white);
+            font-weight: 600;
+            box-shadow: var(--shadow-lg);
+            transform: translateX(400px);
+            transition: var(--transition);
+            z-index: 10000;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .notification.success {
+            background: var(--success);
+        }
+
+        .notification.error {
+            background: var(--danger);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links,
+            .book-now-nav {
+                display: none;
+            }
+
+            .menu-toggle {
+                display: flex;
+            }
+
+            .nav-links.mobile-active {
+                display: flex;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                flex-direction: column;
+                background: rgba(10, 10, 10, 0.98);
+                padding: 2rem;
+                gap: 1.5rem;
+                border-top: 1px solid rgba(212, 175, 55, 0.2);
+                box-shadow: var(--shadow-lg);
+            }
+
+            .hero h1 {
+                font-size: 3rem;
+            }
+
+            .services-grid,
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .barbers-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-container {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-container {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .social-links {
+                justify-content: center;
+            }
+
+            .admin-tabs {
+                overflow-x: auto;
+                white-space: nowrap;
+                -webkit-overflow-scrolling: touch;
+            }
+        }
+
+        /* Print Styles */
+        @media print {
+            .admin-trigger,
+            .admin-modal,
+            .menu-toggle,
+            nav {
+                display: none !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div class="loader" id="loader">
+        <div class="loader-inner">
+            <div class="scissors"></div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav id="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo">SHEAR MAGIC</a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#gallery">Gallery</a></li>
+                <li><a href="#barbers">Barbers</a></li>
+                <li><a href="#booking">Book</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <a href="#booking" class="book-now-nav">Book Now</a>
+            <div class="menu-toggle" id="menuToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-bg"></div>
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <div class="hero-badge">Shear Magic</div>
+            <h1>Modern Cuts<br>Timeless Style</h1>
+            <p>Calvin Berkins, Darrien Berkins, Danielle Valentine</p>
+            <div class="hero-cta">
+                <a href="#booking" class="btn btn-primary">Book Appointment</a>
+                <a href="#services" class="btn btn-secondary">View Services</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="services" id="services">
+        <div class="section-header">
+            <div class="section-badge">Our Services</div>
+            <h2 class="section-title">Expert Grooming Services</h2>
+            <p class="section-desc">From classic cuts to modern styles, we deliver excellence in every service</p>
+        </div>
+        <div class="services-grid">
+            <div class="service-card">
+                <div class="service-icon">✂</div>
+                <h3 class="service-name">Classic Cut</h3>
+                <p class="service-desc">Traditional barbershop experience with precision cutting</p>
+                <div class="service-price">$25</div>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">💈</div>
+                <h3 class="service-name">Fade & Design</h3>
+                <p class="service-desc">Modern fades with optional artistic designs</p>
+                <div class="service-price">$35</div>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">🪒</div>
+                <h3 class="service-name">Hot Towel Shave</h3>
+                <p class="service-desc">Luxurious traditional straight razor shave</p>
+                <div class="service-price">$40</div>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">🧔</div>
+                <h3 class="service-name">Beard Trim</h3>
+                <p class="service-desc">Professional beard shaping and maintenance</p>
+                <div class="service-price">$15</div>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">👦</div>
+                <h3 class="service-name">Kids Cut</h3>
+                <p class="service-desc">Patient, friendly service for our youngest clients</p>
+                <div class="service-price">$18</div>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">🎨</div>
+                <h3 class="service-name">Hair Color</h3>
+                <p class="service-desc">Professional coloring and highlighting services</p>
+                <div class="service-price">$45+</div>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">👨‍🦳</div>
+                <h3 class="service-name">Senior Special</h3>
+                <p class="service-desc">Discounted cuts for our valued senior customers</p>
+                <div class="service-price">$20</div>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">💆‍♂️</div>
+                <h3 class="service-name">Wash & Style</h3>
+                <p class="service-desc">Refreshing wash with professional styling</p>
+                <div class="service-price">$30</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section class="gallery" id="gallery">
+        <div class="section-header">
+            <div class="section-badge">Our Work</div>
+            <h2 class="section-title">Gallery of Excellence</h2>
+            <p class="section-desc">See the quality and craftsmanship we bring to every cut</p>
+        </div>
+        <div class="gallery-grid">
+            <div class="gallery-item">
+                <img src="https://i.ibb.co/0j664Prj/493513553-9875837869170303-517477888537851410-n.jpg" alt="Fresh fade haircut">
+                <div class="gallery-overlay">
+                    <div class="gallery-caption">Fresh Fade</div>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <img src="https://i.ibb.co/4g2SxKVq/489889964-9768806093206815-1129130192247202795-n.jpg" alt="Classic cut">
+                <div class="gallery-overlay">
+                    <div class="gallery-caption">Classic Gentleman's Cut</div>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <img src="https://i.ibb.co/nMhFB12Z/486109802-9649559625131463-2014667653509757611-n.jpg" alt="Beard trim">
+                <div class="gallery-overlay">
+                    <div class="gallery-caption">Professional Beard Trim</div>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <img src="https://i.ibb.co/ym9fsv5T/484847135-9635499473204145-197261023411486849-n.jpg" alt="Modern style">
+                <div class="gallery-overlay">
+                    <div class="gallery-caption">Modern Style</div>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <img src="https://i.ibb.co/vx0rRNbs/488935383-9741117382642353-6471222776232243202-n.jpg" alt="Hot towel shave">
+                <div class="gallery-overlay">
+                    <div class="gallery-caption">Hot Towel Shave</div>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <img src="https://i.ibb.co/CK8sTpW8/82072292-2829852320435595-8199256214907912192-n.jpg" alt="Artistic design">
+                <div class="gallery-overlay">
+                    <div class="gallery-caption">Creative Design</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Barbers Section -->
+    <section class="barbers" id="barbers">
+        <div class="section-header">
+            <div class="section-badge">Meet The Team</div>
+            <h2 class="section-title">Master Barbers</h2>
+            <p class="section-desc">Skilled professionals dedicated to your perfect look</p>
+        </div>
+        <div class="barbers-grid">
+            <div class="barber-card">
+                <img src="https://i.ibb.co/1tCHNHp3/482249153-9566035180150575-8168813732127006603-n.jpg" alt="Calvin - Master Barber" class="barber-image">
+                <div class="barber-info">
+                    <h3 class="barber-name">Calvin</h3>
+                    <p class="barber-title">Master Barber & Owner</p>
+                    <p class="barber-bio">With over 15 years of experience, Calvin brings precision and passion to every cut. Specializing in classic styles and modern fades.</p>
+                    <div class="barber-specialties">
+                        <span class="specialty-tag">Classic Cuts</span>
+                        <span class="specialty-tag">Fades</span>
+                        <span class="specialty-tag">Beard Design</span>
+                    </div>
+                </div>
+            </div>
+            <div class="barber-card">
+                <img src="https://i.ibb.co/NdR76bJm/Gemini-Generated-Image-yz1mayyz1mayyz1m.png" alt="Darrian - Senior Barber" class="barber-image">
+                <div class="barber-info">
+                    <h3 class="barber-name">Darrian</h3>
+                    <p class="barber-title">Senior Barber</p>
+                    <p class="barber-bio">Known for his attention to detail and creative designs. Darrian excels in modern styles and artistic hair designs.</p>
+                    <div class="barber-specialties">
+                        <span class="specialty-tag">Modern Styles</span>
+                        <span class="specialty-tag">Hair Design</span>
+                        <span class="specialty-tag">Color</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Booking Section -->
+    <section class="booking" id="booking">
+        <div class="section-header">
+            <div class="section-badge">Book Online</div>
+            <h2 class="section-title">Schedule Your Appointment</h2>
+            <p class="section-desc">Select your service, barber, and preferred time</p>
+        </div>
+        <div class="booking-container">
+            <form class="booking-form" id="bookingForm">
+                <div class="form-group">
+                    <label class="form-label">Name</label>
+                    <input type="text" class="form-input" id="customerName" placeholder="Your Name" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Phone</label>
+                    <input type="tel" class="form-input" id="customerPhone" placeholder="Your Phone" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Email</label>
+                    <input type="email" class="form-input" id="customerEmail" placeholder="Your Email">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Service</label>
+                    <select class="form-select" id="serviceSelect" required>
+                        <option value="">Select Service</option>
+                        <option value="classic-cut">Classic Cut - $25</option>
+                        <option value="fade-design">Fade & Design - $35</option>
+                        <option value="hot-shave">Hot Towel Shave - $40</option>
+                        <option value="beard-trim">Beard Trim - $15</option>
+                        <option value="kids-cut">Kids Cut - $18</option>
+                        <option value="hair-color">Hair Color - $45+</option>
+                        <option value="senior">Senior Special - $20</option>
+                        <option value="wash-style">Wash & Style - $30</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Barber</label>
+                    <select class="form-select" id="barberSelect" required>
+                        <option value="">Select Barber</option>
+                        <option value="calvin">Calvin</option>
+                        <option value="darrian">Darrian</option>
+                        <option value="any">No Preference</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Date</label>
+                    <input type="date" class="form-input" id="appointmentDate" required>
+                </div>
+                <div class="form-group full-width">
+                    <label class="form-label">Select Time</label>
+                    <div class="time-slots" id="timeSlots">
+                        <div class="time-slot">10:00 AM</div>
+                        <div class="time-slot">10:30 AM</div>
+                        <div class="time-slot">11:00 AM</div>
+                        <div class="time-slot">11:30 AM</div>
+                        <div class="time-slot">12:00 PM</div>
+                        <div class="time-slot">12:30 PM</div>
+                        <div class="time-slot">1:00 PM</div>
+                        <div class="time-slot">1:30 PM</div>
+                        <div class="time-slot">2:00 PM</div>
+                        <div class="time-slot">2:30 PM</div>
+                        <div class="time-slot">3:00 PM</div>
+                        <div class="time-slot">3:30 PM</div>
+                        <div class="time-slot">4:00 PM</div>
+                        <div class="time-slot">4:30 PM</div>
+                    </div>
+                </div>
+                <div class="form-group full-width">
+                    <label class="form-label">Special Requests</label>
+                    <textarea class="form-textarea" id="specialRequests" placeholder="Any special requests or notes..."></textarea>
+                </div>
+                <button type="submit" class="submit-btn">Book Appointment</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+        <div class="section-header">
+            <div class="section-badge">Get In Touch</div>
+            <h2 class="section-title">Visit Our Shop</h2>
+            <p class="section-desc">Come experience the Shear Magic difference</p>
+        </div>
+        <div class="contact-container">
+            <div class="contact-info">
+                <div class="contact-item">
+                    <div class="contact-icon">📍</div>
+                    <div class="contact-details">
+                        <h3>Location</h3>
+                        <p>225 Market St, 1st Floor<br>Johnstown, PA 15901</p>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-icon">📞</div>
+                    <div class="contact-details">
+                        <h3>Phone</h3>
+                        <p><a href="tel:8145355110">(814) 535-5110</a></p>
+                        <p><a href="tel:8144183779">(814) 418-3779</a></p>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-icon">🕒</div>
+                    <div class="contact-details">
+                        <h3>Hours</h3>
+                        <p>Tuesday - Sunday: 10:00 AM - 5:00 PM<br>
+                        Monday: Closed</p>
+                    </div>
+                </div>
+            </div>
+            <div class="map-container">
+                <div class="map-placeholder">
+                    <div class="map-text">
+                        <h3>Find Us Here</h3>
+                        <p>225 Market St, Johnstown, PA</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>Shear Magic</h3>
+                <p>Johnstown's premier barbershop since 2010.</p>
+                <div class="social-links">
+                    <a href="#" class="social-link">f</a>
+                    <a href="#" class="social-link">i</a>
+                    <a href="#" class="social-link">t</a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="#services">Services</a></li>
+                    <li><a href="#gallery">Gallery</a></li>
+                    <li><a href="#barbers">Our Team</a></li>
+                    <li><a href="#booking">Book Online</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Services</h3>
+                <ul>
+                    <li><a href="#services">Classic Cuts</a></li>
+                    <li><a href="#services">Fades & Designs</a></li>
+                    <li><a href="#services">Hot Towel Shaves</a></li>
+                    <li><a href="#services">Beard Grooming</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contact</h3>
+                <ul>
+                    <li>225 Market St, 1st Floor</li>
+                    <li>Johnstown, PA 15901</li>
+                    <li><a href="tel:8145355110">(814) 535-5110</a></li>
+                    <li>Tuesday - Sunday: 10-5</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Shear Magic. All rights reserved. | Website by <a href="#">Sheldon G</a></p>
+        </div>
+    </footer>
+
+    <!-- Admin Trigger Button -->
+    <div class="admin-trigger" id="adminTrigger" title="Admin Panel">⚙️</div>
+
+    <!-- Admin Modal -->
+    <div class="admin-modal" id="adminModal">
+        <div class="admin-container">
+            <div class="admin-header">
+                <h1 class="admin-title">Admin Panel</h1>
+                <div class="admin-close" id="adminClose">✕</div>
+            </div>
+
+            <!-- Login Section -->
+            <div class="admin-login" id="adminLogin">
+                <h2>Admin Login</h2>
+                <form class="login-form" id="loginForm">
+                    <div class="form-group">
+                        <label class="form-label">Username</label>
+                        <input type="text" class="form-input" id="adminUsername" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Password</label>
+                        <input type="password" class="form-input" id="adminPassword" required>
+                    </div>
+                    <button type="submit" class="submit-btn">Login</button>
+                </form>
+            </div>
+
+            <!-- Admin Dashboard (Hidden until login) -->
+            <div class="admin-dashboard" id="adminDashboard" style="display: none;">
+                <div class="admin-tabs">
+                    <button class="admin-tab active" data-tab="hero">Hero</button>
+                    <button class="admin-tab" data-tab="services">Services</button>
+                    <button class="admin-tab" data-tab="gallery">Gallery</button>
+                    <button class="admin-tab" data-tab="barbers">Barbers</button>
+                    <button class="admin-tab" data-tab="schedule">Schedule</button>
+                    <button class="admin-tab" data-tab="bookings">Bookings</button>
+                    <button class="admin-tab" data-tab="contact">Contact</button>
+                </div>
+
+                <!-- Hero Section Editor -->
+                <div class="admin-section active" id="hero-section">
+                    <div class="admin-card">
+                        <h3>Hero Section</h3>
+                        <div class="editable-field">
+                            <label>Badge Text</label>
+                            <input type="text" class="editable-input" id="heroBadge" value="Family Operated Since 1989">
+                        </div>
+                        <div class="editable-field">
+                            <label>Main Title</label>
+                            <input type="text" class="editable-input" id="heroTitle" value="Precision Cuts Timeless Style">
+                        </div>
+                        <div class="editable-field">
+                            <label>Subtitle</label>
+                            <input type="text" class="editable-input" id="heroSubtitle" value="Where three generations come for their grooming needs">
+                        </div>
+                        <div class="editable-field">
+                            <label>Background Image URL</label>
+                            <input type="text" class="editable-input" id="heroBgImage" placeholder="Enter image URL">
+                        </div>
+                        <div class="admin-actions">
+                            <button class="admin-btn admin-btn-primary" onclick="saveHeroChanges()">Save Changes</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Services Section Editor -->
+                <div class="admin-section" id="services-section">
+                    <div class="admin-card">
+                        <h3>Services Management</h3>
+                        <div class="service-editor" id="serviceEditor">
+                            <!-- Services will be dynamically loaded here -->
+                        </div>
+                        <div class="admin-actions">
+                            <button class="admin-btn admin-btn-secondary" onclick="addService()">Add Service</button>
+                            <button class="admin-btn admin-btn-primary" onclick="saveServices()">Save All Services</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Gallery Section Editor -->
+                <div class="admin-section" id="gallery-section">
+                    <div class="admin-card">
+                        <h3>Gallery Management</h3>
+                        <div class="editable-field">
+                            <label>Add New Image URL</label>
+                            <input type="text" class="editable-input" id="newGalleryImage" placeholder="Enter image URL">
+                        </div>
+                        <div class="editable-field">
+                            <label>Image Caption</label>
+                            <input type="text" class="editable-input" id="newGalleryCaption" placeholder="Enter caption">
+                        </div>
+                        <div class="admin-actions">
+                            <button class="admin-btn admin-btn-primary" onclick="addGalleryImage()">Add to Gallery</button>
+                        </div>
+                        <div class="gallery-manager" id="galleryManager">
+                            <!-- Gallery items will be shown here -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Barbers Section Editor -->
+                <div class="admin-section" id="barbers-section">
+                    <div class="admin-card">
+                        <h3>Barbers Management</h3>
+                        <div class="editable-field">
+                            <label>Barber 1 Name</label>
+                            <input type="text" class="editable-input" id="barber1Name" value="Calvin">
+                        </div>
+                        <div class="editable-field">
+                            <label>Barber 1 Title</label>
+                            <input type="text" class="editable-input" id="barber1Title" value="Master Barber & Owner">
+                        </div>
+                        <div class="editable-field">
+                            <label>Barber 1 Bio</label>
+                            <textarea class="editable-textarea" id="barber1Bio">With over 20 years of experience, Calvin brings precision and passion to every cut. Specializing in classic styles and modern fades.</textarea>
+                        </div>
+                        <hr style="margin: 2rem 0; border-color: rgba(212, 175, 55, 0.2);">
+                        <div class="editable-field">
+                            <label>Barber 2 Name</label>
+                            <input type="text" class="editable-input" id="barber2Name" value="Darrian">
+                        </div>
+                        <div class="editable-field">
+                            <label>Barber 2 Title</label>
+                            <input type="text" class="editable-input" id="barber2Title" value="Senior Barber">
+                        </div>
+                        <div class="editable-field">
+                            <label>Barber 2 Bio</label>
+                            <textarea class="editable-textarea" id="barber2Bio">Known for his attention to detail and creative designs. Darrian excels in modern styles and artistic hair designs.</textarea>
+                        </div>
+                        <div class="admin-actions">
+                            <button class="admin-btn admin-btn-primary" onclick="saveBarbersChanges()">Save Changes</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Schedule Management -->
+                <div class="admin-section" id="schedule-section">
+                    <div class="admin-card">
+                        <h3>Availability Calendar</h3>
+                        <p style="color: var(--gray-light); margin-bottom: 1rem;">Click on dates to toggle availability. Red = Unavailable</p>
+                        <div class="availability-calendar" id="availabilityCalendar">
+                            <!-- Calendar will be generated here -->
+                        </div>
+                        <div class="admin-actions">
+                            <button class="admin-btn admin-btn-primary" onclick="saveAvailability()">Save Availability</button>
+                            <button class="admin-btn admin-btn-secondary" onclick="clearAvailability()">Clear All</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bookings Management -->
+                <div class="admin-section" id="bookings-section">
+                    <div class="admin-card">
+                        <h3>Recent Bookings</h3>
+                        <div id="bookingsList">
+                            <!-- Bookings will be listed here -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contact Section Editor -->
+                <div class="admin-section" id="contact-section">
+                    <div class="admin-card">
+                        <h3>Contact Information</h3>
+                        <div class="editable-field">
+                            <label>Address</label>
+                            <input type="text" class="editable-input" id="contactAddress" value="225 Market St, 1st Floor, Johnstown, PA 15901">
+                        </div>
+                        <div class="editable-field">
+                            <label>Phone 1</label>
+                            <input type="text" class="editable-input" id="contactPhone1" value="(814) 535-5110">
+                        </div>
+                        <div class="editable-field">
+                            <label>Phone 2</label>
+                            <input type="text" class="editable-input" id="contactPhone2" value="(814) 418-3779">
+                        </div>
+                        <div class="editable-field">
+                            <label>Hours</label>
+                            <textarea class="editable-textarea" id="contactHours">Tuesday - Sunday: 10:00 AM - 5:00 PM
+Monday: Closed</textarea>
+                        </div>
+                        <div class="admin-actions">
+                            <button class="admin-btn admin-btn-primary" onclick="saveContactChanges()">Save Changes</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification -->
+    <div class="notification" id="notification"></div>
+
+    <script>
+        // Initialize on load
+        window.addEventListener('load', () => {
+            // Hide loader
+            setTimeout(() => {
+                document.getElementById('loader').classList.add('hidden');
+            }, 1000);
+
+            // Initialize components
+            initNavigation();
+            initBooking();
+            initAdmin();
+            initAnimations();
+        });
+
+        // Navigation
+        function initNavigation() {
+            const navbar = document.getElementById('navbar');
+            const menuToggle = document.getElementById('menuToggle');
+            const navLinks = document.getElementById('navLinks');
+
+            // Scroll effect
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    navbar.classList.add('scrolled');
+                } else {
+                    navbar.classList.remove('scrolled');
+                }
+            });
+
+            // Mobile menu
+            menuToggle.addEventListener('click', () => {
+                menuToggle.classList.toggle('active');
+                navLinks.classList.toggle('mobile-active');
+            });
+
+            // Close mobile menu on link click
+            navLinks.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    menuToggle.classList.remove('active');
+                    navLinks.classList.remove('mobile-active');
+                });
+            });
+
+            // Smooth scroll
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                });
+            });
+        }
+
+        // Booking System
+        function initBooking() {
+            const bookingForm = document.getElementById('bookingForm');
+            const timeSlots = document.querySelectorAll('.time-slot');
+            const appointmentDate = document.getElementById('appointmentDate');
+            let selectedTime = null;
+
+            // Set minimum date to tomorrow
+            const tomorrow = new Date();
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            appointmentDate.min = tomorrow.toISOString().split('T')[0];
+
+            // Time slot selection
+            timeSlots.forEach(slot => {
+                slot.addEventListener('click', () => {
+                    if (slot.classList.contains('disabled')) return;
+                    
+                    timeSlots.forEach(s => s.classList.remove('selected'));
+                    slot.classList.add('selected');
+                    selectedTime = slot.textContent;
+                });
+            });
+
+            // Form submission
+            bookingForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                
+                if (!selectedTime) {
+                    showNotification('Please select a time slot', 'error');
+                    return;
+                }
+
+                const formData = {
+                    name: document.getElementById('customerName').value,
+                    phone: document.getElementById('customerPhone').value,
+                    email: document.getElementById('customerEmail').value,
+                    service: document.getElementById('serviceSelect').value,
+                    barber: document.getElementById('barberSelect').value,
+                    date: document.getElementById('appointmentDate').value,
+                    time: selectedTime,
+                    requests: document.getElementById('specialRequests').value
+                };
+
+                // Save booking to localStorage
+                const bookings = JSON.parse(localStorage.getItem('bookings') || '[]');
+                bookings.push({
+                    ...formData,
+                    id: Date.now(),
+                    createdAt: new Date().toISOString()
+                });
+                localStorage.setItem('bookings', JSON.stringify(bookings));
+
+                showNotification('Booking confirmed! We\'ll call you to confirm.', 'success');
+                bookingForm.reset();
+                timeSlots.forEach(s => s.classList.remove('selected'));
+                selectedTime = null;
+            });
+        }
+
+        // Admin Panel
+        function initAdmin() {
+            const adminTrigger = document.getElementById('adminTrigger');
+            const adminModal = document.getElementById('adminModal');
+            const adminClose = document.getElementById('adminClose');
+            const loginForm = document.getElementById('loginForm');
+            const adminLogin = document.getElementById('adminLogin');
+            const adminDashboard = document.getElementById('adminDashboard');
+
+            // Open admin modal
+            adminTrigger.addEventListener('click', () => {
+                adminModal.classList.add('active');
+            });
+
+            // Close admin modal
+            adminClose.addEventListener('click', () => {
+                adminModal.classList.remove('active');
+            });
+
+            // Close on outside click
+            adminModal.addEventListener('click', (e) => {
+                if (e.target === adminModal) {
+                    adminModal.classList.remove('active');
+                }
+            });
+
+            // Admin login
+            loginForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const username = document.getElementById('adminUsername').value;
+                const password = document.getElementById('adminPassword').value;
+
+                // Simple authentication (in production, use secure backend)
+                if (username === 'admin' && password === 'shearmagic2025') {
+                    adminLogin.style.display = 'none';
+                    adminDashboard.style.display = 'block';
+                    loadAdminData();
+                    showNotification('Login successful!', 'success');
+                } else {
+                    showNotification('Invalid credentials', 'error');
+                }
+            });
+
+            // Tab switching
+            document.querySelectorAll('.admin-tab').forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const tabName = tab.dataset.tab;
+                    
+                    // Update active tab
+                    document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                    
+                    // Show corresponding section
+                    document.querySelectorAll('.admin-section').forEach(section => {
+                        section.classList.remove('active');
+                    });
+                    document.getElementById(`${tabName}-section`).classList.add('active');
+                });
+            });
+        }
+
+        // Load admin data
+        function loadAdminData() {
+            // Load services
+            loadServices();
+            // Load gallery
+            loadGallery();
+            // Load bookings
+            loadBookings();
+            // Generate calendar
+            generateCalendar();
+        }
+
+        // Services management
+        function loadServices() {
+            const serviceEditor = document.getElementById('serviceEditor');
+            const services = [
+                { icon: '✂', name: 'Classic Cut', desc: 'Traditional barbershop experience', price: '$25' },
+                { icon: '💈', name: 'Fade & Design', desc: 'Modern fades with designs', price: '$35' },
+                { icon: '🪒', name: 'Hot Towel Shave', desc: 'Luxurious straight razor shave', price: '$40' },
+                { icon: '🧔', name: 'Beard Trim', desc: 'Professional beard shaping', price: '$15' },
+                { icon: '👦', name: 'Kids Cut', desc: 'Patient service for kids', price: '$18' },
+                { icon: '🎨', name: 'Hair Color', desc: 'Professional coloring', price: '$45+' },
+                { icon: '👨‍🦳', name: 'Senior Special', desc: 'Discounted senior cuts', price: '$20' },
+                { icon: '💆‍♂️', name: 'Wash & Style', desc: 'Wash with styling', price: '$30' }
+            ];
+
+            serviceEditor.innerHTML = services.map((service, index) => `
+                <div class="service-item">
+                    <input type="text" class="editable-input" value="${service.name}" id="service-name-${index}">
+                    <input type="text" class="editable-input" value="${service.price}" id="service-price-${index}">
+                    <input type="text" class="editable-input" value="${service.desc}" id="service-desc-${index}">
+                    <button class="admin-btn admin-btn-danger" onclick="removeService(${index})">Remove</button>
+                </div>
+            `).join('');
+        }
+
+        // Gallery management
+        function loadGallery() {
+            // Load existing gallery items
+            const galleryManager = document.getElementById('galleryManager');
+            // This would typically load from a database
+        }
+
+        // Bookings management
+        function loadBookings() {
+            const bookingsList = document.getElementById('bookingsList');
+            const bookings = JSON.parse(localStorage.getItem('bookings') || '[]');
+            
+            if (bookings.length === 0) {
+                bookingsList.innerHTML = '<p style="color: var(--gray-light);">No bookings yet.</p>';
+                return;
+            }
+
+            bookingsList.innerHTML = bookings.slice(-10).reverse().map(booking => `
+                <div class="admin-card" style="margin-bottom: 1rem;">
+                    <p><strong>${booking.name}</strong> - ${booking.phone}</p>
+                    <p>Service: ${booking.service} with ${booking.barber}</p>
+                    <p>Date: ${booking.date} at ${booking.time}</p>
+                    ${booking.requests ? `<p>Notes: ${booking.requests}</p>` : ''}
+                    <small style="color: var(--gray-light);">Booked: ${new Date(booking.createdAt).toLocaleString()}</small>
+                </div>
+            `).join('');
+        }
+
+        // Calendar generation
+        function generateCalendar() {
+            const calendar = document.getElementById('availabilityCalendar');
+            const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+            
+            // Add day headers
+            daysOfWeek.forEach(day => {
+                const header = document.createElement('div');
+                header.className = 'day-header';
+                header.textContent = day;
+                calendar.appendChild(header);
+            });
+
+            // Generate 35 days (5 weeks)
+            const today = new Date();
+            const firstDay = new Date(today.getFullYear(), today.getMonth(), 1);
+            const startDate = new Date(firstDay);
+            startDate.setDate(startDate.getDate() - firstDay.getDay());
+
+            for (let i = 0; i < 35; i++) {
+                const date = new Date(startDate);
+                date.setDate(date.getDate() + i);
+                
+                const dayElement = document.createElement('div');
+                dayElement.className = 'calendar-day';
+                dayElement.dataset.date = date.toISOString().split('T')[0];
+                
+                const dayNumber = document.createElement('div');
+                dayNumber.className = 'day-number';
+                dayNumber.textContent = date.getDate();
+                
+                const daySlots = document.createElement('div');
+                daySlots.className = 'day-slots';
+                daySlots.textContent = '8 slots';
+                
+                dayElement.appendChild(dayNumber);
+                dayElement.appendChild(daySlots);
+                
+                // Toggle availability on click
+                dayElement.addEventListener('click', () => {
+                    dayElement.classList.toggle('unavailable');
+                });
+                
+                // Mark past dates as unavailable
+                if (date < today) {
+                    dayElement.classList.add('unavailable');
+                    dayElement.style.opacity = '0.5';
+                    dayElement.style.pointerEvents = 'none';
+                }
+                
+                calendar.appendChild(dayElement);
+            }
+        }
+
+        // Save functions
+        function saveHeroChanges() {
+            // In production, this would save to a database
+            showNotification('Hero section updated successfully!', 'success');
+        }
+
+        function saveServices() {
+            // Save services to database
+            showNotification('Services updated successfully!', 'success');
+        }
+
+        function saveBarbersChanges() {
+            // Save barber information
+            showNotification('Barber information updated!', 'success');
+        }
+
+        function saveContactChanges() {
+            // Save contact information
+            showNotification('Contact information updated!', 'success');
+        }
+
+        function saveAvailability() {
+            // Save availability calendar
+            showNotification('Availability calendar saved!', 'success');
+        }
+
+        function clearAvailability() {
+            document.querySelectorAll('.calendar-day').forEach(day => {
+                if (day.style.pointerEvents !== 'none') {
+                    day.classList.remove('unavailable');
+                }
+            });
+            showNotification('Availability cleared!', 'success');
+        }
+
+        function addService() {
+            // Add new service
+            loadServices();
+            showNotification('Service added!', 'success');
+        }
+
+        function removeService(index) {
+            // Remove service
+            showNotification('Service removed!', 'success');
+            loadServices();
+        }
+
+        function addGalleryImage() {
+            const imageUrl = document.getElementById('newGalleryImage').value;
+            const caption = document.getElementById('newGalleryCaption').value;
+            
+            if (!imageUrl) {
+                showNotification('Please enter an image URL', 'error');
+                return;
+            }
+            
+            // Add to gallery
+            showNotification('Image added to gallery!', 'success');
+            document.getElementById('newGalleryImage').value = '';
+            document.getElementById('newGalleryCaption').value = '';
+        }
+
+        // Notification system
+        function showNotification(message, type = 'success') {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.className = `notification ${type} show`;
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+
+        // Animations
+        function initAnimations() {
+            // Intersection Observer for scroll animations
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.animation = 'fadeInUp 1s ease forwards';
+                    }
+                });
+            }, observerOptions);
+
+            // Observe sections
+            document.querySelectorAll('section').forEach(section => {
+                observer.observe(section);
+            });
+        }
+    </script>
+</body>
+</html>
