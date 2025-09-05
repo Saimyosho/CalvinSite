@@ -1683,7 +1683,7 @@
                 </div>
                 
                 <!-- SimplyBook Widget Container -->
-                <div id="sbw_container"></div>
+                <div id="sbw_container" style="width: 100%; position: relative;"></div>
                 
                 <!-- Alternative Booking Options -->
                 <div class="booking-alternatives">
@@ -1759,7 +1759,7 @@
         // Site Configuration
         const siteConfig = {
             simplybook: {
-                companyUrl: 'demo', // Replace with actual SimplyBook URL
+                companyUrl: 'shearmagicpa', // Replace with actual SimplyBook URL
                 primaryColor: '#D4AF37',
                 theme: 'default'
             },
@@ -1782,20 +1782,14 @@
         // Initialize SimplyBook Widget
         function initSimplyBook() {
             const loader = document.getElementById('bookingLoader');
-            const container = document.getElementById('sbw_container');
             
             // Show loader
             if (loader) {
                 loader.style.display = 'flex';
             }
 
-            // Try widget first, then fallback to iframe
-            let attempts = 0;
-            const maxAttempts = 3;
-
-            function tryLoadWidget() {
-                attempts++;
-                
+            // Wait for script to load
+            setTimeout(() => {
                 if (typeof SimplybookWidget !== 'undefined') {
                     try {
                         const widget = new SimplybookWidget({
@@ -1835,41 +1829,20 @@
                             }
                         }, 1500);
                     } catch (error) {
-                        console.error('Error with widget, using iframe fallback:', error);
-                        loadIframeFallback();
+                        console.error('Error initializing SimplyBook widget:', error);
+                        if (loader) {
+                            loader.innerHTML = '<p style="color: var(--gold);">Booking system temporarily unavailable.<br>Please call (814) 535-5110</p>';
+                        }
                     }
-                } else if (attempts < maxAttempts) {
-                    // Retry after a delay
-                    setTimeout(tryLoadWidget, 2000);
                 } else {
-                    // Use iframe fallback after max attempts
-                    console.log('Widget script not loading, using iframe fallback');
-                    loadIframeFallback();
+                    // If SimplyBook script hasn't loaded, show fallback
+                    if (loader) {
+                        loader.innerHTML = '<p style="color: var(--gold);">Loading booking system...<br>If this persists, please call (814) 535-5110</p>';
+                    }
+                    // Retry after a delay
+                    setTimeout(initSimplyBook, 2000);
                 }
-            }
-
-            function loadIframeFallback() {
-                if (loader) {
-                    loader.style.display = 'none';
-                }
-                if (container) {
-                    container.innerHTML = `
-                        <iframe 
-                            src="https://${siteConfig.simplybook.companyUrl}.simplybook.me/v2/" 
-                            width="100%" 
-                            height="700" 
-                            frameborder="0" 
-                            scrolling="auto"
-                            style="border-radius: 12px; background: #1A1A1A; min-height: 600px;"
-                            onload="this.style.opacity='1';"
-                            onerror="this.src='https://shearmagicpa.simplybook.me/v2/'">
-                        </iframe>
-                    `;
-                }
-            }
-
-            // Start trying to load widget
-            tryLoadWidget();
+            }, 1000);
         }
 
         // Admin Functions
