@@ -275,7 +275,7 @@
             gap: var(--spacing-sm);
         }
 
-        .menu-btn {
+        .menu-btn, .admin-btn {
             width: var(--touch-target);
             height: var(--touch-target);
             background: transparent;
@@ -290,7 +290,7 @@
             border-radius: var(--radius);
         }
 
-        .menu-btn:active {
+        .menu-btn:active, .admin-btn:active {
             background: rgba(212, 175, 55, 0.1);
             transform: scale(0.95);
         }
@@ -380,6 +380,92 @@
         .slide-menu-link:active {
             background: rgba(212, 175, 55, 0.1);
             transform: translateX(5px);
+        }
+
+        /* Admin Panel Styles */
+        .admin-panel {
+            position: fixed;
+            top: 0;
+            left: -100%;
+            width: 85%;
+            max-width: 400px;
+            height: 100%;
+            background: var(--charcoal);
+            z-index: 1001;
+            transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 5px 0 20px rgba(0, 0, 0, 0.5);
+            overflow-y: auto;
+        }
+
+        .admin-panel.active {
+            left: 0;
+        }
+
+        .admin-panel-header {
+            padding: var(--spacing-md);
+            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--black);
+        }
+
+        .admin-panel-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.5rem;
+            color: var(--gold);
+            letter-spacing: 1px;
+        }
+
+        .admin-panel-content {
+            padding: var(--spacing-md);
+        }
+
+        .admin-section {
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .admin-section h3 {
+            color: var(--gold);
+            margin-bottom: var(--spacing-sm);
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.2rem;
+            letter-spacing: 1px;
+        }
+
+        .admin-input {
+            width: 100%;
+            padding: var(--spacing-sm);
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            color: var(--white);
+            border-radius: var(--radius-sm);
+            margin-bottom: var(--spacing-sm);
+            font-family: 'Inter', sans-serif;
+        }
+
+        .admin-input:focus {
+            outline: none;
+            border-color: var(--gold);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .admin-btn-primary {
+            width: 100%;
+            padding: var(--spacing-sm);
+            background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+            color: var(--black);
+            border: none;
+            border-radius: var(--radius-sm);
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .admin-btn-primary:active {
+            transform: scale(0.98);
         }
 
         /* Hero Section - Mobile First */
@@ -720,7 +806,7 @@
             border: 1px solid var(--gold);
         }
 
-        /* Booking - Mobile Optimized Form */
+        /* SimplyBook.me Integration Section */
         .booking {
             padding: var(--spacing-xl) var(--spacing-md);
             background: var(--black);
@@ -733,119 +819,78 @@
             padding: var(--spacing-lg);
             box-shadow: 0 0 30px rgba(212, 175, 55, 0.2);
             backdrop-filter: blur(10px);
+            min-height: 600px;
+            position: relative;
         }
 
-        .booking-form {
+        /* SimplyBook Widget Container */
+        #sbw_container {
+            min-height: 600px;
+            border-radius: var(--radius);
+            overflow: hidden;
+        }
+
+        .booking-loader {
             display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 600px;
             flex-direction: column;
             gap: var(--spacing-md);
         }
 
-        .form-group {
-            display: flex;
-            flex-direction: column;
+        .booking-loader-spinner {
+            width: 60px;
+            height: 60px;
+            border: 4px solid rgba(212, 175, 55, 0.2);
+            border-top-color: var(--gold);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
         }
 
-        .form-label {
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .booking-loader-text {
             color: var(--gold);
-            font-weight: 600;
-            margin-bottom: var(--spacing-xs);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-size: 0.8rem;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.2rem;
+            letter-spacing: 2px;
         }
 
-        .form-input,
-        .form-select,
-        .form-textarea {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(212, 175, 55, 0.3);
-            color: var(--white);
-            padding: var(--spacing-md);
-            border-radius: var(--radius);
-            font-size: 1rem;
-            transition: var(--transition);
-            font-family: 'Inter', sans-serif;
-            min-height: var(--touch-target);
-            -webkit-appearance: none;
-        }
-
-        .form-input:focus,
-        .form-select:focus,
-        .form-textarea:focus {
-            outline: none;
-            border-color: var(--gold);
-            background: rgba(255, 255, 255, 0.08);
-            box-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
-        }
-
-        .form-textarea {
-            resize: vertical;
-            min-height: 100px;
-        }
-
-        /* Time Slots - Touch Optimized Grid */
-        .time-slots {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: var(--spacing-xs);
-        }
-
-        .time-slot {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(212, 175, 55, 0.3);
-            padding: var(--spacing-sm);
-            border-radius: var(--radius);
+        /* Alternative Booking Options */
+        .booking-alternatives {
             text-align: center;
-            cursor: pointer;
-            transition: var(--transition);
-            color: var(--white);
-            font-size: 0.9rem;
-            min-height: var(--touch-target);
-            display: flex;
+            margin-top: var(--spacing-lg);
+            padding: var(--spacing-md);
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: var(--radius);
+        }
+
+        .booking-alternatives p {
+            color: var(--gray-light);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .phone-btn {
+            display: inline-flex;
             align-items: center;
-            justify-content: center;
-        }
-
-        .time-slot:active {
-            transform: scale(0.95);
-            background: rgba(212, 175, 55, 0.2);
-        }
-
-        .time-slot.selected {
-            background: var(--gold);
-            color: var(--black);
-            border-color: var(--gold);
-            font-weight: 600;
-        }
-
-        .time-slot.disabled {
-            opacity: 0.3;
-            cursor: not-allowed;
-            pointer-events: none;
-        }
-
-        .submit-btn {
+            gap: var(--spacing-xs);
             background: linear-gradient(135deg, var(--gold), var(--gold-dark));
             color: var(--black);
-            border: none;
-            padding: var(--spacing-md);
-            font-size: 1.1rem;
-            font-weight: 700;
+            padding: var(--spacing-sm) var(--spacing-lg);
             border-radius: var(--radius);
-            cursor: pointer;
+            text-decoration: none;
+            font-weight: 600;
             transition: var(--transition);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            min-height: 56px;
-            box-shadow: 0 4px 20px rgba(212, 175, 55, 0.3);
         }
 
-        .submit-btn:active {
-            transform: scale(0.98);
+        .phone-btn:active {
+            transform: scale(0.95);
         }
 
-        /* Contact - Mobile Stack */
+        /* Contact Section */
         .contact {
             padding: var(--spacing-xl) var(--spacing-md);
             background: linear-gradient(180deg, var(--charcoal) 0%, var(--black) 100%);
@@ -1137,20 +1182,6 @@
                 gap: var(--spacing-lg);
             }
 
-            .booking-form {
-                display: grid;
-                grid-template-columns: repeat(2, 1fr);
-                gap: var(--spacing-lg);
-            }
-
-            .form-group.full-width {
-                grid-column: 1 / -1;
-            }
-
-            .time-slots {
-                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-            }
-
             .contact-stack {
                 display: grid;
                 grid-template-columns: repeat(2, 1fr);
@@ -1169,6 +1200,10 @@
             .fab {
                 bottom: var(--spacing-lg);
                 right: var(--spacing-lg);
+            }
+
+            .admin-panel {
+                max-width: 500px;
             }
         }
 
@@ -1317,16 +1352,6 @@
                 scroll-behavior: auto !important;
             }
         }
-
-        /* Dark mode support */
-        @media (prefers-color-scheme: light) {
-            :root {
-                --black: #FFFFFF;
-                --white: #0A0A0A;
-                --charcoal: #F5F5F5;
-                --gray-dark: #E0E0E0;
-            }
-        }
     </style>
 </head>
 <body>
@@ -1357,13 +1382,69 @@
             <a href="#booking" class="book-now-desktop">Book Now</a>
         </nav>
 
-        <!-- Mobile Menu Button -->
+        <!-- Mobile Menu & Admin Buttons -->
         <div class="header-actions">
+            <button class="admin-btn" id="adminBtn" aria-label="Admin panel">
+                ⚙️
+            </button>
             <button class="menu-btn" id="menuBtn" aria-label="Open menu">
                 ☰
             </button>
         </div>
     </header>
+
+    <!-- Admin Panel -->
+    <div class="slide-menu-overlay" id="adminOverlay"></div>
+    <aside class="admin-panel" id="adminPanel">
+        <div class="admin-panel-header">
+            <div class="admin-panel-title">ADMIN PANEL</div>
+            <button class="close-menu" id="closeAdmin" aria-label="Close admin">✕</button>
+        </div>
+        <div class="admin-panel-content">
+            <!-- Login Section -->
+            <div class="admin-section" id="adminLogin">
+                <h3>Admin Login</h3>
+                <input type="password" class="admin-input" id="adminPassword" placeholder="Enter password">
+                <button class="admin-btn-primary" onclick="attemptAdminLogin()">Login</button>
+            </div>
+
+            <!-- Admin Controls (hidden until login) -->
+            <div id="adminControls" style="display: none;">
+                <!-- SimplyBook Settings -->
+                <div class="admin-section">
+                    <h3>SimplyBook Settings</h3>
+                    <label style="color: var(--gray-light); font-size: 0.9rem; display: block; margin-bottom: 8px;">
+                        Company URL (e.g., "shearmagic")
+                    </label>
+                    <input type="text" class="admin-input" id="simplybookUrl" placeholder="your-company">
+                    <button class="admin-btn-primary" onclick="updateSimplyBook()">Update Booking Widget</button>
+                </div>
+
+                <!-- Widget Theme -->
+                <div class="admin-section">
+                    <h3>Widget Theme</h3>
+                    <label style="color: var(--gray-light); font-size: 0.9rem; display: block; margin-bottom: 8px;">
+                        Primary Color
+                    </label>
+                    <input type="color" class="admin-input" id="widgetColor" value="#D4AF37">
+                    <button class="admin-btn-primary" onclick="updateWidgetTheme()">Update Theme</button>
+                </div>
+
+                <!-- Export/Import -->
+                <div class="admin-section">
+                    <h3>Data Management</h3>
+                    <button class="admin-btn-primary" onclick="exportSettings()">Export Settings</button>
+                    <button class="admin-btn-primary" style="margin-top: 8px;" onclick="document.getElementById('importFile').click()">Import Settings</button>
+                    <input type="file" id="importFile" accept=".json" style="display: none;" onchange="importSettings(event)">
+                </div>
+
+                <!-- Logout -->
+                <div class="admin-section">
+                    <button class="admin-btn-primary" style="background: var(--danger);" onclick="adminLogout()">Logout</button>
+                </div>
+            </div>
+        </div>
+    </aside>
 
     <!-- Mobile Slide Menu -->
     <div class="slide-menu-overlay" id="slideOverlay"></div>
@@ -1587,80 +1668,30 @@
             </div>
         </section>
 
-        <!-- Booking Section -->
+        <!-- SimplyBook.me Booking Section -->
         <section class="booking" id="booking">
             <div class="section-header">
                 <div class="section-badge">Book Online</div>
                 <h2 class="section-title">Schedule Appointment</h2>
-                <p class="section-desc">Quick and easy booking</p>
+                <p class="section-desc">Quick and easy online booking</p>
             </div>
             <div class="booking-container">
-                <form class="booking-form" id="bookingForm">
-                    <div class="form-group">
-                        <label class="form-label" for="customerName">Name</label>
-                        <input type="text" class="form-input" id="customerName" placeholder="Your Name" required>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label" for="customerPhone">Phone</label>
-                        <input type="tel" class="form-input" id="customerPhone" placeholder="(555) 123-4567" required>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label" for="customerEmail">Email</label>
-                        <input type="email" class="form-input" id="customerEmail" placeholder="your@email.com">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label" for="serviceSelect">Service</label>
-                        <select class="form-select" id="serviceSelect" required>
-                            <option value="">Select Service</option>
-                            <option value="classic-cut">Classic Cut - $25</option>
-                            <option value="fade-design">Fade & Design - $35</option>
-                            <option value="hot-shave">Hot Towel Shave - $40</option>
-                            <option value="beard-trim">Beard Trim - $15</option>
-                            <option value="kids-cut">Kids Cut - $18</option>
-                            <option value="hair-color">Hair Color - $45+</option>
-                            <option value="senior">Senior Special - $20</option>
-                            <option value="wash-style">Wash & Style - $30</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label" for="barberSelect">Barber</label>
-                        <select class="form-select" id="barberSelect" required>
-                            <option value="">Select Barber</option>
-                            <option value="calvin">Calvin</option>
-                            <option value="darrian">Darrian</option>
-                            <option value="danielle">Danielle Valentine</option>
-                            <option value="any">No Preference</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label" for="appointmentDate">Date</label>
-                        <input type="date" class="form-input" id="appointmentDate" required>
-                    </div>
-                    <div class="form-group full-width">
-                        <label class="form-label">Select Time</label>
-                        <div class="time-slots" id="timeSlots">
-                            <div class="time-slot touchable">10:00 AM</div>
-                            <div class="time-slot touchable">10:30 AM</div>
-                            <div class="time-slot touchable">11:00 AM</div>
-                            <div class="time-slot touchable">11:30 AM</div>
-                            <div class="time-slot touchable">12:00 PM</div>
-                            <div class="time-slot touchable">12:30 PM</div>
-                            <div class="time-slot touchable">1:00 PM</div>
-                            <div class="time-slot touchable">1:30 PM</div>
-                            <div class="time-slot touchable">2:00 PM</div>
-                            <div class="time-slot touchable">2:30 PM</div>
-                            <div class="time-slot touchable">3:00 PM</div>
-                            <div class="time-slot touchable">3:30 PM</div>
-                            <div class="time-slot touchable">4:00 PM</div>
-                            <div class="time-slot touchable">4:30 PM</div>
-                        </div>
-                    </div>
-                    <div class="form-group full-width">
-                        <label class="form-label" for="specialRequests">Special Requests</label>
-                        <textarea class="form-textarea" id="specialRequests" placeholder="Any special requests..."></textarea>
-                    </div>
-                    <button type="submit" class="submit-btn touchable full-width">Book Appointment</button>
-                </form>
+                <!-- Loading State -->
+                <div class="booking-loader" id="bookingLoader">
+                    <div class="booking-loader-spinner"></div>
+                    <div class="booking-loader-text">LOADING BOOKING SYSTEM</div>
+                </div>
+                
+                <!-- SimplyBook Widget Container -->
+                <div id="sbw_container"></div>
+                
+                <!-- Alternative Booking Options -->
+                <div class="booking-alternatives">
+                    <p>Prefer to book by phone?</p>
+                    <a href="tel:8145355110" class="phone-btn touchable">
+                        📞 Call (814) 535-5110
+                    </a>
+                </div>
             </div>
         </section>
 
@@ -1721,31 +1752,311 @@
     <!-- Notification Toast -->
     <div class="notification" id="notification" role="alert" aria-live="polite"></div>
 
+    <!-- SimplyBook.me Widget Script -->
+    <script src="//widget.simplybook.me/v2/widget/widget.js"></script>
+
     <script>
-        // Mobile-First App
+        // Site Configuration
+        const siteConfig = {
+            simplybook: {
+                companyUrl: 'demo', // Replace with actual SimplyBook URL
+                primaryColor: '#D4AF37',
+                theme: 'default'
+            },
+            adminPassword: 'shearmagic2025'
+        };
+
+        // Load saved configuration
+        function loadConfig() {
+            const saved = localStorage.getItem('shearMagicConfig');
+            if (saved) {
+                Object.assign(siteConfig, JSON.parse(saved));
+            }
+        }
+
+        // Save configuration
+        function saveConfig() {
+            localStorage.setItem('shearMagicConfig', JSON.stringify(siteConfig));
+        }
+
+        // Initialize SimplyBook Widget
+        function initSimplyBook() {
+            const loader = document.getElementById('bookingLoader');
+            const container = document.getElementById('sbw_container');
+            
+            // Show loader
+            if (loader) {
+                loader.style.display = 'flex';
+            }
+
+            // Try widget first, then fallback to iframe
+            let attempts = 0;
+            const maxAttempts = 3;
+
+            function tryLoadWidget() {
+                attempts++;
+                
+                if (typeof SimplybookWidget !== 'undefined') {
+                    try {
+                        const widget = new SimplybookWidget({
+                            "widget_type": "iframe",
+                            "url": `https://${siteConfig.simplybook.companyUrl}.simplybook.me`,
+                            "theme": siteConfig.simplybook.theme,
+                            "theme_settings": {
+                                "timeline_show_end_time": "1",
+                                "timeline_modern_display": "as_slots",
+                                "sb_base_color": siteConfig.simplybook.primaryColor,
+                                "display_item_mode": "block",
+                                "booking_nav_bg_color": "#1A1A1A",
+                                "body_bg_color": "#0A0A0A",
+                                "dark_font_color": "#FFFFFF",
+                                "light_font_color": "#0A0A0A",
+                                "sb_review_image": "",
+                                "btn_color_1": "#D4AF37",
+                                "btn_color_2": "#B8941F",
+                                "link_color": "#D4AF37"
+                            },
+                            "timeline": "modern",
+                            "datepicker": "top_calendar",
+                            "is_rtl": false,
+                            "app_config": {
+                                "allow_switch_to_ada": 0,
+                                "predefined": []
+                            },
+                            "container_id": "sbw_container"
+                        });
+                        
+                        widget.displayIframe();
+                        
+                        // Hide loader after widget loads
+                        setTimeout(() => {
+                            if (loader) {
+                                loader.style.display = 'none';
+                            }
+                        }, 1500);
+                    } catch (error) {
+                        console.error('Error with widget, using iframe fallback:', error);
+                        loadIframeFallback();
+                    }
+                } else if (attempts < maxAttempts) {
+                    // Retry after a delay
+                    setTimeout(tryLoadWidget, 2000);
+                } else {
+                    // Use iframe fallback after max attempts
+                    console.log('Widget script not loading, using iframe fallback');
+                    loadIframeFallback();
+                }
+            }
+
+            function loadIframeFallback() {
+                if (loader) {
+                    loader.style.display = 'none';
+                }
+                if (container) {
+                    container.innerHTML = `
+                        <iframe 
+                            src="https://${siteConfig.simplybook.companyUrl}.simplybook.me/v2/" 
+                            width="100%" 
+                            height="700" 
+                            frameborder="0" 
+                            scrolling="auto"
+                            style="border-radius: 12px; background: #1A1A1A; min-height: 600px;"
+                            onload="this.style.opacity='1';"
+                            onerror="this.src='https://shearmagicpa.simplybook.me/v2/'">
+                        </iframe>
+                    `;
+                }
+            }
+
+            // Start trying to load widget
+            tryLoadWidget();
+        }
+
+        // Admin Functions
+        let isAdminLoggedIn = false;
+
+        function attemptAdminLogin() {
+            const password = document.getElementById('adminPassword').value;
+            if (password === siteConfig.adminPassword) {
+                isAdminLoggedIn = true;
+                document.getElementById('adminLogin').style.display = 'none';
+                document.getElementById('adminControls').style.display = 'block';
+                
+                // Load current settings into inputs
+                document.getElementById('simplybookUrl').value = siteConfig.simplybook.companyUrl;
+                document.getElementById('widgetColor').value = siteConfig.simplybook.primaryColor;
+                
+                showNotification('Admin access granted', 'success');
+            } else {
+                showNotification('Invalid password', 'error');
+            }
+        }
+
+        function adminLogout() {
+            isAdminLoggedIn = false;
+            document.getElementById('adminLogin').style.display = 'block';
+            document.getElementById('adminControls').style.display = 'none';
+            document.getElementById('adminPassword').value = '';
+            toggleAdminPanel(false);
+            showNotification('Logged out successfully', 'success');
+        }
+
+        function updateSimplyBook() {
+            const url = document.getElementById('simplybookUrl').value;
+            if (url) {
+                siteConfig.simplybook.companyUrl = url.replace('.simplybook.me', '').replace('https://', '');
+                saveConfig();
+                
+                // Clear and reinitialize widget
+                document.getElementById('sbw_container').innerHTML = '';
+                initSimplyBook();
+                
+                showNotification('SimplyBook widget updated!', 'success');
+            }
+        }
+
+        function updateWidgetTheme() {
+            const color = document.getElementById('widgetColor').value;
+            siteConfig.simplybook.primaryColor = color;
+            saveConfig();
+            
+            // Reinitialize widget
+            document.getElementById('sbw_container').innerHTML = '';
+            initSimplyBook();
+            
+            showNotification('Widget theme updated!', 'success');
+        }
+
+        function exportSettings() {
+            const dataStr = JSON.stringify(siteConfig, null, 2);
+            const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+            
+            const exportFileDefaultName = 'shearmagic-settings.json';
+            
+            const linkElement = document.createElement('a');
+            linkElement.setAttribute('href', dataUri);
+            linkElement.setAttribute('download', exportFileDefaultName);
+            linkElement.click();
+            
+            showNotification('Settings exported!', 'success');
+        }
+
+        function importSettings(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    try {
+                        const imported = JSON.parse(e.target.result);
+                        Object.assign(siteConfig, imported);
+                        saveConfig();
+                        
+                        // Update UI
+                        document.getElementById('simplybookUrl').value = siteConfig.simplybook.companyUrl;
+                        document.getElementById('widgetColor').value = siteConfig.simplybook.primaryColor;
+                        
+                        // Reinitialize widget
+                        document.getElementById('sbw_container').innerHTML = '';
+                        initSimplyBook();
+                        
+                        showNotification('Settings imported successfully!', 'success');
+                    } catch (error) {
+                        showNotification('Error importing settings', 'error');
+                    }
+                };
+                reader.readAsText(file);
+            }
+        }
+
+        // UI Functions
+        function toggleAdminPanel(open) {
+            const panel = document.getElementById('adminPanel');
+            const overlay = document.getElementById('adminOverlay');
+            
+            if (open === undefined) {
+                open = !panel.classList.contains('active');
+            }
+            
+            if (open) {
+                panel.classList.add('active');
+                overlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            } else {
+                panel.classList.remove('active');
+                overlay.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        }
+
+        function showNotification(message, type = 'success') {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.className = `notification ${type} show`;
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 4000);
+        }
+
+        // Mobile-First App Initialization
         const MobileFirstApp = {
-            // Configuration
-            config: {
-                touchStartY: 0,
-                touchEndY: 0,
-                selectedTime: null,
-                scrollThreshold: 50,
-                lastScrollTop: 0,
-                isScrolling: false
-            },
-
-            // Initialize
             init() {
-                this.loader.init();
+                // Load configuration
+                loadConfig();
+                
+                // Initialize SimplyBook
+                initSimplyBook();
+                
+                // Setup event listeners
+                this.setupEventListeners();
+                
+                // Initialize navigation
                 this.navigation.init();
-                this.slideMenu.init();
-                this.booking.init();
-                this.touch.init();
+                
+                // Initialize scroll behavior
                 this.scroll.init();
-                this.serviceWorker.register();
+                
+                // Setup loader
+                this.loader.init();
+                
+                // Setup touch interactions
+                this.touch.init();
             },
 
-            // Loader
+            setupEventListeners() {
+                // Admin panel
+                document.getElementById('adminBtn')?.addEventListener('click', () => toggleAdminPanel());
+                document.getElementById('closeAdmin')?.addEventListener('click', () => toggleAdminPanel(false));
+                document.getElementById('adminOverlay')?.addEventListener('click', () => toggleAdminPanel(false));
+                
+                // Slide menu
+                const menuBtn = document.getElementById('menuBtn');
+                const slideMenu = document.getElementById('slideMenu');
+                const slideOverlay = document.getElementById('slideOverlay');
+                const closeMenu = document.getElementById('closeMenu');
+                const menuLinks = document.querySelectorAll('.slide-menu-link');
+                
+                const toggleMenu = (open) => {
+                    if (open) {
+                        slideMenu.classList.add('active');
+                        slideOverlay.classList.add('active');
+                        document.body.style.overflow = 'hidden';
+                    } else {
+                        slideMenu.classList.remove('active');
+                        slideOverlay.classList.remove('active');
+                        document.body.style.overflow = '';
+                    }
+                };
+                
+                menuBtn?.addEventListener('click', () => toggleMenu(true));
+                closeMenu?.addEventListener('click', () => toggleMenu(false));
+                slideOverlay?.addEventListener('click', () => toggleMenu(false));
+                
+                menuLinks.forEach(link => {
+                    link.addEventListener('click', () => toggleMenu(false));
+                });
+            },
+
             loader: {
                 init() {
                     window.addEventListener('load', () => {
@@ -1756,7 +2067,6 @@
                 }
             },
 
-            // Mobile Navigation
             navigation: {
                 init() {
                     const navItems = document.querySelectorAll('.mobile-nav-item');
@@ -1765,16 +2075,14 @@
                         item.addEventListener('click', (e) => {
                             e.preventDefault();
                             
-                            // Update active state
                             navItems.forEach(nav => nav.classList.remove('active'));
                             item.classList.add('active');
                             
-                            // Smooth scroll to section
                             const targetId = item.getAttribute('href');
                             const target = document.querySelector(targetId);
                             
                             if (target) {
-                                const offset = 60; // Header height
+                                const offset = 60;
                                 const targetPosition = target.offsetTop - offset;
                                 
                                 window.scrollTo({
@@ -1785,7 +2093,6 @@
                         });
                     });
 
-                    // Update active nav on scroll
                     this.observeSections();
                 },
 
@@ -1814,175 +2121,28 @@
                 }
             },
 
-            // Slide Menu
-            slideMenu: {
-                init() {
-                    const menuBtn = document.getElementById('menuBtn');
-                    const slideMenu = document.getElementById('slideMenu');
-                    const slideOverlay = document.getElementById('slideOverlay');
-                    const closeMenu = document.getElementById('closeMenu');
-                    const menuLinks = document.querySelectorAll('.slide-menu-link');
-                    
-                    const toggleMenu = (open) => {
-                        if (open) {
-                            slideMenu.classList.add('active');
-                            slideOverlay.classList.add('active');
-                            document.body.style.overflow = 'hidden';
-                        } else {
-                            slideMenu.classList.remove('active');
-                            slideOverlay.classList.remove('active');
-                            document.body.style.overflow = '';
-                        }
-                    };
-                    
-                    menuBtn?.addEventListener('click', () => toggleMenu(true));
-                    closeMenu?.addEventListener('click', () => toggleMenu(false));
-                    slideOverlay?.addEventListener('click', () => toggleMenu(false));
-                    
-                    menuLinks.forEach(link => {
-                        link.addEventListener('click', () => toggleMenu(false));
-                    });
-                }
-            },
-
-            // Booking System
-            booking: {
-                init() {
-                    const form = document.getElementById('bookingForm');
-                    const timeSlots = document.querySelectorAll('.time-slot');
-                    const phoneInput = document.getElementById('customerPhone');
-                    const dateInput = document.getElementById('appointmentDate');
-                    
-                    // Set min date to tomorrow
-                    const tomorrow = new Date();
-                    tomorrow.setDate(tomorrow.getDate() + 1);
-                    dateInput.min = tomorrow.toISOString().split('T')[0];
-                    
-                    // Phone formatting
-                    phoneInput?.addEventListener('input', (e) => {
-                        let value = e.target.value.replace(/\D/g, '');
-                        if (value.length >= 6) {
-                            value = `(${value.slice(0,3)}) ${value.slice(3,6)}-${value.slice(6,10)}`;
-                        } else if (value.length >= 3) {
-                            value = `(${value.slice(0,3)}) ${value.slice(3)}`;
-                        }
-                        e.target.value = value;
-                    });
-                    
-                    // Time slot selection
-                    timeSlots.forEach(slot => {
-                        slot.addEventListener('click', () => {
-                            if (!slot.classList.contains('disabled')) {
-                                timeSlots.forEach(s => s.classList.remove('selected'));
-                                slot.classList.add('selected');
-                                MobileFirstApp.config.selectedTime = slot.textContent;
-                            }
-                        });
-                    });
-                    
-                    // Form submission
-                    form?.addEventListener('submit', (e) => {
-                        e.preventDefault();
-                        
-                        if (!MobileFirstApp.config.selectedTime) {
-                            MobileFirstApp.utils.showNotification('Please select a time slot', 'error');
-                            return;
-                        }
-                        
-                        // Process booking
-                        const formData = new FormData(form);
-                        const booking = {
-                            name: formData.get('customerName'),
-                            phone: formData.get('customerPhone'),
-                            email: formData.get('customerEmail'),
-                            service: document.getElementById('serviceSelect').value,
-                            barber: document.getElementById('barberSelect').value,
-                            date: formData.get('appointmentDate'),
-                            time: MobileFirstApp.config.selectedTime,
-                            requests: formData.get('specialRequests'),
-                            timestamp: new Date().toISOString()
-                        };
-                        
-                        // Save to localStorage
-                        const bookings = JSON.parse(localStorage.getItem('bookings') || '[]');
-                        bookings.push(booking);
-                        localStorage.setItem('bookings', JSON.stringify(bookings));
-                        
-                        // Show success
-                        MobileFirstApp.utils.showNotification('Booking confirmed! We\'ll call you soon.', 'success');
-                        
-                        // Reset form
-                        form.reset();
-                        timeSlots.forEach(s => s.classList.remove('selected'));
-                        MobileFirstApp.config.selectedTime = null;
-                    });
-                }
-            },
-
-            // Touch Interactions
-            touch: {
-                init() {
-                    // Swipe to dismiss notifications
-                    const notification = document.getElementById('notification');
-                    let startX = 0;
-                    
-                    notification.addEventListener('touchstart', (e) => {
-                        startX = e.touches[0].clientX;
-                    });
-                    
-                    notification.addEventListener('touchmove', (e) => {
-                        const currentX = e.touches[0].clientX;
-                        const diff = currentX - startX;
-                        notification.style.transform = `translateX(${diff}px)`;
-                    });
-                    
-                    notification.addEventListener('touchend', (e) => {
-                        const endX = e.changedTouches[0].clientX;
-                        const diff = Math.abs(endX - startX);
-                        
-                        if (diff > 100) {
-                            notification.classList.remove('show');
-                            notification.style.transform = '';
-                        } else {
-                            notification.style.transform = '';
-                        }
-                    });
-
-                    // Add haptic feedback simulation for buttons
-                    document.querySelectorAll('.touchable').forEach(element => {
-                        element.addEventListener('touchstart', () => {
-                            if ('vibrate' in navigator) {
-                                navigator.vibrate(10);
-                            }
-                        });
-                    });
-                }
-            },
-
-            // Scroll Behavior
             scroll: {
                 init() {
                     const fab = document.getElementById('fab');
                     const mobileNav = document.getElementById('mobileNav');
                     let lastScroll = 0;
                     let scrollTimeout;
+                    let isScrolling = false;
                     
                     window.addEventListener('scroll', () => {
                         const currentScroll = window.pageYOffset;
                         
-                        // Hide/show FAB and nav on scroll
-                        if (!MobileFirstApp.config.isScrolling) {
-                            MobileFirstApp.config.isScrolling = true;
+                        if (!isScrolling) {
+                            isScrolling = true;
                             fab?.classList.add('hide');
                         }
                         
                         clearTimeout(scrollTimeout);
                         scrollTimeout = setTimeout(() => {
-                            MobileFirstApp.config.isScrolling = false;
+                            isScrolling = false;
                             fab?.classList.remove('hide');
                         }, 150);
                         
-                        // Hide nav on scroll down, show on scroll up
                         if (currentScroll > lastScroll && currentScroll > 100) {
                             mobileNav?.classList.add('hidden');
                         } else {
@@ -1994,26 +2154,16 @@
                 }
             },
 
-            // Service Worker
-            serviceWorker: {
-                register() {
-                    if ('serviceWorker' in navigator) {
-                        // In production, register actual service worker
-                        console.log('Service Worker ready');
-                    }
-                }
-            },
-
-            // Utilities
-            utils: {
-                showNotification(message, type = 'success') {
-                    const notification = document.getElementById('notification');
-                    notification.textContent = message;
-                    notification.className = `notification ${type} show`;
-                    
-                    setTimeout(() => {
-                        notification.classList.remove('show');
-                    }, 4000);
+            touch: {
+                init() {
+                    // Add haptic feedback simulation for buttons
+                    document.querySelectorAll('.touchable').forEach(element => {
+                        element.addEventListener('touchstart', () => {
+                            if ('vibrate' in navigator) {
+                                navigator.vibrate(10);
+                            }
+                        });
+                    });
                 }
             }
         };
